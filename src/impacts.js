@@ -155,7 +155,7 @@ export class HeroImpacts {
 
     this.renderer = new WebGLRenderer({ canvas, antialias: false, alpha: false, powerPreference: 'high-performance' });
     this.renderer.outputColorSpace = LinearSRGBColorSpace;
-    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.75));
+    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.25));
 
     this.scene = new Scene();
     this.camera = new OrthographicCamera(-1, 1, 1, -1, 0, 1);

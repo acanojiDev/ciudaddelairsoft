@@ -2,9 +2,8 @@ import './style.css';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Lenis from 'lenis';
-import { HeroImpacts, webglAvailable } from './impacts.js';
-import { playBurst } from './sound.js';
 import { plantPines, setActiveZone } from './map.js';
+// three.js (hero) y el sonido se cargan después del primer pintado: la web aparece al instante
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -18,7 +17,7 @@ if (reduced) document.documentElement.classList.add('no-motion');
 /* ---------- Scroll suave ---------- */
 let lenis = null;
 if (!reduced) {
-  lenis = new Lenis({ duration: 1.15, smoothWheel: true });
+  lenis = new Lenis({ lerp: 0.12, smoothWheel: true });
   lenis.on('scroll', ScrollTrigger.update);
   gsap.ticker.add((t) => lenis.raf(t * 1000));
   gsap.ticker.lagSmoothing(0);
@@ -33,42 +32,79 @@ $$('a[href^="#"]').forEach((a) => {
     if (!target) return;
     e.preventDefault();
     closeMenu();
-    if (lenis) lenis.scrollTo(target, { offset: id === '#top' ? 0 : -10, duration: 1.4 });
+    if (lenis) lenis.scrollTo(target, { offset: id === '#top' ? 0 : -10, duration: 1.2 });
     else target.scrollIntoView();
     if (id !== '#top') history.replaceState(null, '', id);
   });
 });
 
-/* ---------- Hero WebGL ---------- */
+/* ---------- Entrada del hero (sin pantalla de carga) ---------- */
 const hero = $('.hero');
 const canvas = $('.hero__canvas');
+const media = $('.hero__media');
+const titleLines = $$('.hero__title .line__in');
+const heroBits = [$('.hero__event'), $('.hero__lede'), $('.hero__actions')];
+if (!reduced) {
+  gsap.timeline({ delay: 0.05 })
+    // y: 0 anula el translateY inicial del CSS (que GSAP leería como píxeles)
+    .fromTo(titleLines, { y: 0, yPercent: 105 }, { y: 0, yPercent: 0, duration: 1, stagger: 0.09, ease: 'expo.out' })
+    .fromTo(heroBits, { autoAlpha: 0, y: 14 }, { autoAlpha: 1, y: 0, duration: 0.7, stagger: 0.06, ease: 'power3.out' }, 0.25)
+    .fromTo(media, { scale: 1.06 }, { scale: 1, duration: 1.6, ease: 'power2.out' }, 0);
+}
+
+/* ---------- Hero WebGL: impactos en la pared (carga diferida) ---------- */
 let wall = null;
-let wallReady = Promise.resolve();
-if (webglAvailable()) {
+let sound = null;
+
+function webglAvailable() {
   try {
-    wall = new HeroImpacts(canvas, `${import.meta.env.BASE_URL}img/pueblo.jpg`);
-    document.documentElement.classList.add('has-webgl');
-    wallReady = wall.ready.catch(() => {
-      document.documentElement.classList.remove('has-webgl');
-      wall = null;
-    });
+    const c = document.createElement('canvas');
+    return !!(window.WebGLRenderingContext && (c.getContext('webgl2') || c.getContext('webgl')));
   } catch {
-    wall = null;
+    return false;
   }
 }
 
 // retroceso: un temblor mínimo de la foto en cada disparo
-const media = $('.hero__media');
-function recoil(shots = 3, interval = 0.075, delay = 0) {
+function recoil(shots = 3, interval = 0.08) {
   if (reduced) return;
-  const tl = gsap.timeline({ delay });
+  const tl = gsap.timeline();
   for (let n = 0; n < shots; n++) {
-    tl.to(media, { x: gsap.utils.random(-3, 3), y: gsap.utils.random(-2, 2), duration: interval / 2, ease: 'power1.out' }, n * interval)
-      .to(media, { x: 0, y: 0, duration: interval / 2, ease: 'power1.in' }, n * interval + interval / 2);
+    tl.to(canvas, { x: gsap.utils.random(-3, 3), y: gsap.utils.random(-2, 2), duration: interval / 2, ease: 'power1.out' }, n * interval)
+      .to(canvas, { x: 0, y: 0, duration: interval / 2, ease: 'power1.in' }, n * interval + interval / 2);
   }
 }
 
-// sonido: solo suena cuando el visitante dispara (nunca solo), y se puede silenciar
+// ráfaga de bienvenida que cruza la fachada
+function introShots(past = 0) {
+  if (!wall) return;
+  const wide = hero.clientWidth > 700;
+  const pts = wide
+    ? [[0.86, 0.3], [0.8, 0.26], [0.74, 0.31], [0.67, 0.24], [0.6, 0.29], [0.9, 0.5], [0.83, 0.47]]
+    : [[0.82, 0.26], [0.7, 0.3], [0.58, 0.24], [0.45, 0.29], [0.3, 0.22], [0.76, 0.42]];
+  pts.forEach(([x, y], n) => wall.hit(x, y, { delay: n * 0.085 - past }));
+  if (!past) recoil(pts.length, 0.085);
+}
+
+async function startWall() {
+  if (!webglAvailable()) return;
+  try {
+    const { HeroImpacts } = await import('./impacts.js');
+    wall = new HeroImpacts(canvas, `${import.meta.env.BASE_URL}img/pueblo.jpg`);
+    await wall.ready;
+    document.documentElement.classList.add('is-live');
+    if (reduced) introShots(20);
+    else if (scrollY < innerHeight * 0.5) setTimeout(() => introShots(), 350);
+    import('./sound.js').then((m) => { sound = m; }).catch(() => {});
+  } catch {
+    wall = null;
+  }
+}
+const whenIdle = window.requestIdleCallback || ((cb) => setTimeout(cb, 150));
+if (document.readyState === 'complete') whenIdle(startWall);
+else window.addEventListener('load', () => whenIdle(startWall), { once: true });
+
+// sonido: solo suena cuando el visitante dispara, y se puede silenciar
 const soundBtn = $('.hero__sound');
 let soundOn = true;
 try { soundOn = localStorage.getItem('cda-sound') !== 'off'; } catch { /* sin almacenamiento */ }
@@ -84,63 +120,17 @@ hero.addEventListener('pointerdown', (e) => {
   const r = canvas.getBoundingClientRect();
   const times = wall.burst((e.clientX - r.left) / r.width, (e.clientY - r.top) / r.height);
   recoil(times.length, 0.08);
-  if (soundOn) playBurst(times);
+  if (soundOn && sound) sound.playBurst(times);
 });
 
-/* ---------- Carga + secuencia de entrada ---------- */
-const loader = $('.loader');
-const titleLines = $$('.hero__title .line__in');
-const heroBits = [$('.hero__event'), $('.hero__place'), $('.hero__lede'), $('.hero__actions'), $('.hero__hint')];
-
-// ráfaga de entrada que cruza la fachada de derecha a izquierda
-function introShots(past = 0) {
-  if (!wall) return;
-  const wide = hero.clientWidth > 700;
-  const pts = wide
-    ? [[0.86, 0.3], [0.8, 0.26], [0.74, 0.31], [0.67, 0.24], [0.6, 0.29], [0.9, 0.5], [0.83, 0.47]]
-    : [[0.82, 0.26], [0.7, 0.3], [0.58, 0.24], [0.45, 0.29], [0.3, 0.22], [0.76, 0.42]];
-  pts.forEach(([x, y], n) => wall.hit(x, y, { delay: n * 0.085 - past }));
-  if (!past) recoil(pts.length, 0.085);
-}
-
-if (reduced) {
-  loader.classList.add('is-done');
-  // impactos estáticos: se disparan "en el pasado" para que aparezcan ya asentados
-  wallReady.then(() => introShots(20));
-} else {
-  gsap.set(titleLines, { yPercent: 105 });
-  gsap.set(heroBits, { autoAlpha: 0, y: 16 });
-
-  const words = $$('.loader__word');
-  const tl = gsap.timeline();
-  tl.from(words, { yPercent: 110, duration: 0.7, stagger: 0.08, ease: 'power4.out' })
-    .to('.loader__bar span', { scaleX: 0.7, duration: 0.8, ease: 'power2.out' }, 0.1);
-
-  const minTime = new Promise((r) => setTimeout(r, 900));
-  const fonts = document.fonts ? document.fonts.ready : Promise.resolve();
-  Promise.all([wallReady, minTime, fonts]).then(() => {
-    const out = gsap.timeline();
-    out.to('.loader__bar span', { scaleX: 1, duration: 0.3, ease: 'power2.inOut' })
-      .to(words, { yPercent: -110, duration: 0.5, stagger: 0.05, ease: 'power3.in' }, '+=0.05')
-      .to(loader, { clipPath: 'inset(0 0 100% 0)', duration: 0.8, ease: 'expo.inOut' }, '-=0.2')
-      .add(() => { loader.classList.add('is-done'); introShots(); }, '-=0.35')
-      .to(titleLines, { yPercent: 0, duration: 1.1, stagger: 0.1, ease: 'expo.out' }, '-=0.1')
-      .to(heroBits, { autoAlpha: 1, y: 0, duration: 0.8, stagger: 0.08, ease: 'power3.out' }, '-=0.8');
-  });
-  gsap.set(loader, { clipPath: 'inset(0 0 0% 0)' });
-}
-
-/* ---------- Hero al hacer scroll ---------- */
+/* ---------- Hero al hacer scroll (solo transformaciones CSS, sin redibujar WebGL) ---------- */
 if (!reduced) {
-  ScrollTrigger.create({
-    trigger: hero,
-    start: 'top top',
-    end: 'bottom top',
-    scrub: true,
-    onUpdate: (self) => wall && wall.setZoom(1 + self.progress * 0.14),
+  gsap.to('.hero__zoom', {
+    scale: 1.12, ease: 'none',
+    scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom top', scrub: true },
   });
   gsap.to('.hero__content', {
-    yPercent: -18, autoAlpha: 0.2, ease: 'none',
+    yPercent: -16, autoAlpha: 0.25, ease: 'none',
     scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom top', scrub: true },
   });
 }
