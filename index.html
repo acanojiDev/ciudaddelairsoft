@@ -10,23 +10,13 @@
   <meta property="og:description" content="Airsoft en un pueblo andaluz de película, en Coín (Málaga)." />
   <meta property="og:image" content="img/tirador.jpg" />
   <link rel="icon" href="./img/logo.jpg" />
-  <link rel="preload" href="./img/pueblo.jpg" as="image" />
-  <script type="module" crossorigin src="./assets/index-SCMJXWue.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/index-CIKAMiDH.css">
+  <script>document.documentElement.classList.add('js')</script>
+  <link rel="preload" href="./img/pueblo.jpg" as="image" fetchpriority="high" />
+  <script type="module" crossorigin src="./assets/index-CUkiBc9K.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-zy8vkWej.css">
 </head>
 <body>
   <a class="skip" href="#main">Saltar al contenido</a>
-
-  <!-- Preloader -->
-  <div class="loader" aria-hidden="true">
-    <img class="loader__logo" src="./img/logo.jpg" alt="" width="96" height="96" />
-    <div class="loader__mark">
-      <span class="loader__word">Ciudad</span>
-      <span class="loader__word">del</span>
-      <span class="loader__word">Airsoft</span>
-    </div>
-    <div class="loader__bar"><span></span></div>
-  </div>
 
   <!-- Cursor (solo puntero fino) -->
   <div class="cursor" aria-hidden="true">
@@ -69,28 +59,28 @@
   <main id="main">
     <!-- HERO -->
     <section class="hero" id="top" aria-labelledby="hero-title">
-      <div class="hero__media">
-        <img class="hero__fallback" src="./img/pueblo.jpg" alt="Calle del pueblo blanco del campo: casas encaladas con balcones de forja y un cartel de Policía" />
-        <canvas class="hero__canvas" aria-hidden="true"></canvas>
+      <div class="hero__zoom">
+        <div class="hero__media">
+          <img class="hero__fallback" fetchpriority="high" src="./img/pueblo.jpg" alt="Calle del pueblo blanco del campo: casas encaladas con balcones de forja y un cartel de Policía" />
+          <canvas class="hero__canvas" aria-hidden="true"></canvas>
+        </div>
       </div>
       <div class="hero__shade" aria-hidden="true"></div>
 
       <div class="hero__content">
-        <a class="hero__event" href="#dia-0"><span class="hero__event-dot" aria-hidden="true"></span>Reapertura: Día 0, sábado 12 de diciembre<span class="hero__event-count" data-days-left></span></a>
-        <p class="hero__place">Coín, Málaga</p>
+        <a class="hero__event" href="#dia-0"><span class="hero__event-dot" aria-hidden="true"></span><span class="hero__event-long">Reapertura: Día 0, sábado 12 de diciembre</span><span class="hero__event-short">Día 0: reapertura el 12/12</span><span class="hero__event-count" data-days-left></span></a>
         <h1 class="hero__title" id="hero-title">
           <span class="line"><span class="line__in">El pueblo</span></span>
           <span class="line"><span class="line__in">ha vuelto.</span></span>
         </h1>
         <div class="hero__foot">
-          <p class="hero__lede">Airsoft en un pueblo andaluz de película. Calles encaladas, ermita, escuela, naves, pinar y trincheras. Abierto otra vez.</p>
+          <p class="hero__lede">Campo de airsoft en un pueblo andaluz de película, en Coín (Málaga).</p>
           <div class="hero__actions">
             <a class="btn btn--senal" href="#reserva" data-magnetic>Reservar partida</a>
             <a class="btn btn--ghost" href="#tarifas">Ver tarifas</a>
           </div>
         </div>
       </div>
-      <p class="hero__hint" aria-hidden="true"><span class="hint-dot"></span>Dispara a la pared</p>
       <button class="hero__sound" type="button" aria-pressed="true" aria-label="Sonido de los disparos">
         <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z" fill="currentColor"/><path class="hero__sound-waves" d="M16 9a4 4 0 0 1 0 6M18.5 6.5a7.5 7.5 0 0 1 0 11" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path class="hero__sound-off" d="M16 9l5 6M21 9l-5 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
       </button>
@@ -100,12 +90,11 @@
     <section class="story" aria-label="La historia del pueblo">
       <div class="story__inner">
         <p class="story__text" data-scrub-words>
-          Este pueblo nunca tuvo vecinos. Se levantó como plató de rodaje para la serie Arrayán, con su plaza, su escuela y sus balcones de forja. Después se convirtió en el campo de juego más raro de Málaga. Estuvo un tiempo cerrado y las calles se quedaron en silencio. Ahora vuelven a sonar.
+          Este pueblo se levantó como plató para la serie Arrayán. Después fue el campo de airsoft más especial de Málaga. Tras un tiempo en silencio, sus calles vuelven a sonar.
         </p>
         <dl class="story__facts">
           <div><dt>Terreno de juego</dt><dd><span data-count="50000">50.000</span> m²</dd></div>
-          <div><dt>Duración de cada partida</dt><dd>30 min</dd></div>
-          <div><dt>Desde Málaga capital</dt><dd>40 min</dd></div>
+          <div><dt>Zonas de juego</dt><dd>7</dd></div>
         </dl>
       </div>
     </section>
@@ -127,7 +116,7 @@
         </div>
 
         <div class="event__body">
-          <p class="event__lede">Por fin volvemos. El primer evento tras la reapertura: una jornada entera de partidas por todo el pueblo, dos bandos y comida en el campo.</p>
+          <p class="event__lede">Por fin volvemos. Una jornada entera de partidas por todo el pueblo, dos bandos y comida en el campo.</p>
           <dl class="event__facts">
             <div><dt>Precio</dt><dd>60 €<small>Almuerzo incluido</small></dd></div>
             <div><dt>Aforo</dt><dd>150<small>jugadores</small></dd></div>
@@ -136,7 +125,7 @@
 
           <form class="signup" novalidate>
             <h3 class="signup__title">Apúntate</h3>
-            <p class="signup__note">Las plazas van por orden de llegada y la inscripción es individual: un correo por jugador.</p>
+            <p class="signup__note">Por orden de llegada. Una inscripción por jugador.</p>
             <fieldset class="side">
               <legend>Elige bando</legend>
               <label class="side__opt"><input type="radio" name="bando" value="Ejército" checked /><span>Ejército</span></label>
@@ -154,15 +143,10 @@
             </div>
             <p class="form-error" role="alert" hidden></p>
             <button class="btn btn--senal btn--block" type="submit" data-magnetic>Enviar inscripción por correo</button>
-            <p class="signup__alt">Se abrirá tu correo con el mensaje listo para <a href="mailto:info@ciudaddelairsoft.es?subject=Inscripci%C3%B3n%20D%C3%ADa%200">info@ciudaddelairsoft.es</a>.</p>
+            <p class="signup__alt">Se abrirá tu correo con el mensaje listo para <a href="mailto:info@ciudaddelairsoft.es?subject=Inscripci%C3%B3n%20D%C3%ADa%200">info@ciudaddelairsoft.es</a></p>
           </form>
 
-          <ol class="event__steps">
-            <li><span class="event__n">1</span><p>Envía tu inscripción con nombre completo, fecha de nacimiento y bando.</p></li>
-            <li><span class="event__n">2</span><p>Te respondemos con la confirmación, el número de cuenta y el resto de detalles.</p></li>
-            <li><span class="event__n">3</span><p>Tienes 24 horas para pagar y tu plaza queda reservada.</p></li>
-          </ol>
-          <p class="event__fine">¿Te quedas fuera? Tus datos pasan a tener prioridad para el siguiente evento.</p>
+          <p class="event__fine">Te confirmamos plaza por correo y tienes 24 horas para pagar. Si te quedas fuera, tendrás prioridad en el siguiente evento.</p>
         </div>
       </div>
     </section>
@@ -272,31 +256,31 @@
       <ol class="field__zones">
         <li class="zone-step" data-zone="pueblo">
           <h3>El pueblo</h3>
-          <p>Calles estrechas, balcones de forja, una ermita con portón de madera y fachadas con carteles de Policía y Banco. Combate a corta distancia: cada esquina es una emboscada.</p>
+          <p>Calles estrechas, balcones y una ermita. Cada esquina es una emboscada.</p>
         </li>
         <li class="zone-step" data-zone="escuela">
           <h3>La escuela</h3>
-          <p>Pasillos, aulas y un patio abierto. El edificio que todos quieren tener y nadie consigue mantener más de cinco minutos.</p>
+          <p>Pasillos, aulas y un patio. Fácil de tomar, difícil de mantener.</p>
         </li>
         <li class="zone-step" data-zone="naves">
           <h3>Las naves</h3>
-          <p>Dos naves diáfanas con poca cobertura y mucho eco. Para jugadores con nervios templados.</p>
+          <p>Dos naves diáfanas, poca cobertura y mucho eco.</p>
         </li>
         <li class="zone-step" data-zone="bunker">
           <h3>El búnker</h3>
-          <p>Hormigón, una sola entrada y un equipo dentro que no piensa salir. El objetivo de la misión más jugada del campo.</p>
+          <p>Hormigón y una sola entrada. El objetivo más disputado del campo.</p>
         </li>
         <li class="zone-step" data-zone="trincheras">
           <h3>Las trincheras</h3>
-          <p>Zanjas en zigzag para avanzar agachado bajo fuego. Aquí se ganan las partidas largas.</p>
+          <p>Zanjas en zigzag para avanzar a cubierto.</p>
         </li>
         <li class="zone-step" data-zone="pinar">
           <h3>El pinar</h3>
-          <p>Bosque de pinos con sombra hasta en agosto. Terreno para flanquear, esconderse y aparecer donde nadie te espera.</p>
+          <p>Sombra hasta en agosto. Ideal para flanquear.</p>
         </li>
         <li class="zone-step" data-zone="helipuerto">
           <h3>El helipuerto</h3>
-          <p>Explanada abierta y difícil de tomar. Quien la controla, controla el final de la partida.</p>
+          <p>Explanada abierta. Quien la controla, gana.</p>
         </li>
       </ol>
     </section>
@@ -313,16 +297,14 @@
     <section class="missions" id="misiones" aria-labelledby="misiones-title">
       <div class="missions__head">
         <h2 class="section-title" id="misiones-title">Misiones</h2>
-        <p class="section-lede">Partidas cortas de unos 30 minutos, con objetivo claro. Entre una y otra, agua, sombra y revancha.</p>
+        <p class="section-lede">Partidas de unos 30 minutos con un objetivo claro.</p>
       </div>
       <ul class="missions__list">
-        <li class="mission"><span class="mission__name">Asalto al búnker</span><span class="mission__desc">Un equipo defiende, otro tiene que entrar. Se cambian los papeles en la siguiente.</span></li>
-        <li class="mission"><span class="mission__name">Captura la bandera</span><span class="mission__desc">La clásica: llega a la base rival, coge su bandera y vuelve con ella.</span></li>
-        <li class="mission"><span class="mission__name">Corta las comunicaciones</span><span class="mission__desc">Hay que localizar y desactivar la radio enemiga escondida en el pueblo.</span></li>
-        <li class="mission"><span class="mission__name">Material radiactivo</span><span class="mission__desc">Transporta la carga de un extremo a otro del campo sin que te la quiten.</span></li>
-        <li class="mission"><span class="mission__name">Emboscada en el pinar</span><span class="mission__desc">Un convoy cruza el bosque. Unos lo escoltan, otros lo esperan.</span></li>
-        <li class="mission"><span class="mission__name">Toma del helipuerto</span><span class="mission__desc">Controla la explanada durante el tiempo marcado para ganar.</span></li>
-        <li class="mission"><span class="mission__name">Rescate del piloto</span><span class="mission__desc">Encuentra al piloto derribado y sácalo con vida hasta tu base.</span></li>
+        <li class="mission"><span class="mission__name">Asalto al búnker</span><span class="mission__desc">Un equipo defiende, el otro entra.</span></li>
+        <li class="mission"><span class="mission__name">Captura la bandera</span><span class="mission__desc">Roba la bandera rival y tráela a tu base.</span></li>
+        <li class="mission"><span class="mission__name">Material radiactivo</span><span class="mission__desc">Cruza el campo con la carga sin perderla.</span></li>
+        <li class="mission"><span class="mission__name">Toma del helipuerto</span><span class="mission__desc">Aguanta la explanada hasta el final.</span></li>
+        <li class="mission"><span class="mission__name">Rescate del piloto</span><span class="mission__desc">Encuéntralo y sácalo con vida.</span></li>
       </ul>
     </section>
 
@@ -334,12 +316,7 @@
       </div>
       <div class="night__content">
         <h2 class="section-title" id="noche-title">De noche, el pueblo cambia</h2>
-        <p class="section-lede">Partidas nocturnas en fechas señaladas. Linterna en la réplica, el pinar a oscuras y solo los faroles del pueblo encendidos.</p>
-        <ul class="night__facts">
-          <li>Empiezan al anochecer</li>
-          <li>Linterna obligatoria: si no tienes, te prestamos una</li>
-          <li>Plazas limitadas</li>
-        </ul>
+        <p class="section-lede">Partidas nocturnas en fechas señaladas, con linterna y plazas limitadas.</p>
         <a class="btn btn--senal" href="https://wa.me/34622155696?text=Hola%2C%20quiero%20que%20me%20avis%C3%A9is%20de%20la%20pr%C3%B3xima%20partida%20nocturna." target="_blank" rel="noopener" data-magnetic>Avisadme de la próxima</a>
       </div>
       <p class="night__hint" aria-hidden="true">Mueve la linterna</p>
@@ -389,13 +366,13 @@
         <div class="day__photo-frame">
           <img src="./img/equipo.jpg" alt="Una veintena de jugadores equipados posando delante del portón de madera de la ermita del pueblo" loading="lazy" data-parallax-inner />
         </div>
-        <figcaption>Jornada abierta delante de la ermita. Si vienes solo, te unimos a un equipo.</figcaption>
+        <figcaption>Jornada abierta delante de la ermita.</figcaption>
       </figure>
       <ol class="day__steps">
-        <li><span class="day__n">1</span><h3>Reservas</h3><p>Por WhatsApp o con el formulario. Te confirmamos fecha, hora y plan.</p></li>
-        <li><span class="day__n">2</span><h3>Llegas y te equipamos</h3><p>Ven 20 minutos antes. Si no traes réplica, te dejamos réplica, gafas y chaleco. Si traes la tuya, pasa por crono.</p></li>
-        <li><span class="day__n">3</span><h3>Briefing de seguridad</h3><p>Normas, zonas y cómo cantar los impactos. Diez minutos que hacen que todo vaya bien.</p></li>
-        <li><span class="day__n">4</span><h3>A jugar</h3><p>Partidas de unos 30 minutos rotando por las zonas y las misiones.</p></li>
+        <li><span class="day__n">1</span><h3>Reservas</h3><p>Por WhatsApp o con el formulario.</p></li>
+        <li><span class="day__n">2</span><h3>Llegas y te equipamos</h3><p>Si no traes réplica, te dejamos réplica, gafas y chaleco.</p></li>
+        <li><span class="day__n">3</span><h3>Briefing de seguridad</h3><p>Normas, zonas y paso por crono.</p></li>
+        <li><span class="day__n">4</span><h3>A jugar</h3><p>Unas 4 horas de partidas por todo el pueblo.</p></li>
       </ol>
     </section>
 
@@ -420,16 +397,8 @@
           <p>Manga larga, pantalón largo y botas o calzado con buena suela. Las gafas de protección son obligatorias todo el tiempo; si no tienes, te las prestamos.</p>
         </details>
         <details>
-          <summary>¿Y si llueve?</summary>
-          <p>Con lluvia ligera se juega, y tiene su gracia. Si el tiempo es malo de verdad, cambiamos la fecha sin coste.</p>
-        </details>
-        <details>
           <summary>¿Puedo traer mi propia réplica?</summary>
           <p>Claro. Pasa por crono a la entrada para comprobar la potencia, y si es de francotirador o apoyo te indicamos las distancias mínimas de disparo.</p>
-        </details>
-        <details>
-          <summary>¿Cuántas personas hacen falta?</summary>
-          <p>Para una partida privada, desde 10. Si sois menos, os unimos a otros grupos en las jornadas abiertas.</p>
         </details>
       </div>
     </section>
